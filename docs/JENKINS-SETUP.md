@@ -9,18 +9,18 @@ This quickstart guide contains setup instructions that allow you to:
 ## Table of Contents
 
 These are the steps to follow to ensure you've configured your Jenkins Server correctly:
-* [Installation](#installation)
+* [Install Prerequisite Software](#install-prerequisite-software)
     * [Install JDK](#install-jdk-8-or-11)
     * [Install Git](#install-git)
     * [Install Jenkins](#install-jenkins)
     * [Git/Jenkins Plugin](#install-git-jenkins-plugin)
-* [Configure Jenkins](#configure-jenkins)
+* [Configure the Sauce OnDemand Jenkins Plugin](#configure-the-sauce-ondemand-jenkins-plugin)
     * [Install Sauce OnDemand Jenkins Plugin](#install-sauce-ondemand-jenkins-plugin)
     * [Configure Your SauceLabs Credentials](#configure-your-saucelabs-credentials)
     * [Test the SauceLabs OnDemand Jenkins Plugin](#test-the-saucelabs-ondemand-jenkins-plugin)
 <br />
 
-### Installation
+### Install Prerequisite Software
 
 #### Install JDK 8 or 11
 
@@ -148,7 +148,7 @@ The [Git/Jenkins](https://github.com/jenkinsci/git-plugin) plugin allows us to t
 
 <br />
 
-### Configure Jenkins
+### Configure the Sauce OnDemand Jenkins Plugin
 The [Sauce OnDemand Jenkins](https://wiki.jenkins.io/display/JENKINS/Sauce+OnDemand+Plugin) plugin allows you to use SauceLabs VMs during your build and deploy cycles.
 
 Below are the steps on how to configure the OnDemand plugin as a Jenkins build step. If at any point you require further explanation, please visit this [Sauce Labs Wiki page](https://wiki.saucelabs.com/display/DOCS/Installing+and+Configuring+the+Sauce+OnDemand+Plugin+for+Jenkins) for further explanation.
