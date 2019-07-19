@@ -162,24 +162,6 @@ Below are the steps on how to configure the OnDemand plugin as a Jenkins build s
     > The plugin file is fairly large, so the download may take several minutes.  
 6. In the plugin installation dialog, select **Restart Jenkins** when installation is complete and no jobs are running. 
 
-   > If you have SSH access, you can use Jenkin's remote access API to create credentials with `curl` like so:
-```
-JENKINS_CRUMB=$(curl -s 'http://jenkins-admin:jenkins-admin-password@127.0.0.1:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)')
-
-curl -s -XPOST -H ${JENKINS_CRUMB} http://jenkins-admin:jenkins-admin-password@127.0.0.1:8080/credentials/store/system/domain/_/createCredentials \
---data-urlencode 'json={
-  "": "0",
-  "credentials": {
-    "scope": "GLOBAL",
-    "id": "sauce-id",
-    "description": "sauce labs auth",
-    "username": "your-sauce-username",
-    "apiKey": "your-sauce-access-key",
-    "restEndpoint": "https://saucelabs.com/",
-    "$class": "hudson.plugins.sauce_ondemand.credentials.SauceCredentials"
-  }
-}'
-```
 <br />
 
 #### Configure Your SauceLabs Credentials
@@ -198,6 +180,24 @@ The plugin provides an interface for storing your SauceLabs auth credentials as 
     > If you're not sure how to access your SauceLabs credentials go to the [saucelabs.com](https://app.saucelabs.com/dashboard/builds) **Dashboard**, select the arrow next to your account name, and select **User Settings**. Then copy the information to your local clipboard.
 7. Click **OK** to save the credentials.
 
+If you have SSH access, you can use Jenkin's [remote access API](https://wiki.jenkins.io/display/JENKINS/Remote+access+API) to create credentials with `curl` like so:
+```
+JENKINS_CRUMB=$(curl -s 'http://jenkins-admin:jenkins-admin-password@127.0.0.1:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)')
+
+curl -s -XPOST -H ${JENKINS_CRUMB} http://jenkins-admin:jenkins-admin-password@127.0.0.1:8080/credentials/store/system/domain/_/createCredentials \
+--data-urlencode 'json={
+  "": "0",
+  "credentials": {
+    "scope": "GLOBAL",
+    "id": "sauce-id",
+    "description": "sauce labs auth",
+    "username": "your-sauce-username",
+    "apiKey": "your-sauce-access-key",
+    "restEndpoint": "https://saucelabs.com/",
+    "$class": "hudson.plugins.sauce_ondemand.credentials.SauceCredentials"
+  }
+}'
+```
 <br />
 
 #### Test the SauceLabs OnDemand Jenkins Plugin
