@@ -5,6 +5,6 @@ There are several options for deployment and depending on your preference, visit
 
 * [Jenkins Deployment Guide](./docs/JENKINS-SETUP.md)
 * [Jenkins + Docker Deployment Guide](./docs/DOCKER-SETUP.md)
-* [Jenkins + Docker + Ansible Deployment Guide](./docs/ANSIBLE-SETUP.md)
+* [Jenkins + Docker + Ansible Deployment Guide](./docs/ANSIBLE_SETUP.md)
 
 <br />
