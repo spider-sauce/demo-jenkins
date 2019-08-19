@@ -1,3 +1,5 @@
+# Jenkins + Sauce OnDemand Ansible Deployment Guide
+
 ## Prerequisites
 Below is a list of prerequisite software needed to run the **Quickstart Demo**
 
@@ -20,8 +22,8 @@ Below is a list of prerequisite software needed to run the **Quickstart Demo**
 2. Open a bash shell or command prompt and navigate to the project directory.
 3. Open the file `jenkins-docker-build-and-deploy.yml`, and edit the following lines with your [Sauce Labs Credentials](https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Environment+Variables+for+Authentication+Credentials):
     ```
-    "username":"your-saucelabs-username",
-    "apiKey":"your-saucelabs-access-key",
+    "username":"$SAUCE_USERNAME",
+    "apiKey":"$SAUCE_ACCESS_KEY",
     ```
 4. Save the file and run the following commands:
     ```

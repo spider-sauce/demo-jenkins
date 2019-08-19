@@ -1,15 +1,15 @@
-- hosts: localhost
-  connection: local
+- hosts: all
   gather_facts: no
   tasks:
     - name: Build the custom Jenkins Docker image
       docker_image:
         path: ./
-        name: custom/jenkins
+        name: demo-jenkins
+        tag: latest
     - name: Run Jenkins Docker image
       docker_container:
-        name: jenkins
-        image: custom/jenkins
+        name: demo-jenkins
+        image: demo-jenkins:latest
         published_ports: 8080:8080
     - name: Create Crumb Remote Access Request Field
       uri:
@@ -35,8 +35,8 @@
               "scope":"GLOBAL",
               "id":"sauce-id",
               "description":"sauce labs auth",
-              "username":"your-saucelabs-username",
-              "apiKey":"your-saucelabs-access-key",
+              "username": $SAUCE_USERNAME,
+              "apiKey": $SAUCE_ACCESS_KEY,
               "restEndpoint":"https://saucelabs.com/",
               "$class":"hudson.plugins.sauce_ondemand.credentials.SauceCredentials"
             }

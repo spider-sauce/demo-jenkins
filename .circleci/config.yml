@@ -1,0 +1,80 @@
+version: 2
+jobs:
+  build:
+    working_directory: /repo
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --no-cache --virtual \
+             .build-deps g++ python3-dev libffi-dev openssl-dev && \
+            apk add --no-cache --update python3 && \
+            pip3 install --upgrade pip setuptools
+      - run:
+          name: Install Docker and Ansible
+          command: |
+            pip3 install \
+              docker \
+              ansible
+      - restore_cache:
+          keys:
+            - v1-{{ .Branch }}
+          paths:
+            - /caches/demo-jenkins.tar
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/demo-jenkins.tar | true
+      - run:
+          name: Build application Docker image
+          command: |
+            docker build --cache-from=demo-jenkins -t demo-jenkins .
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            docker save -o /caches/demo-jenkins.tar demo-jenkins
+      - save_cache:
+          key: v1-{{ .Branch }}-{{ epoch }}
+          paths:
+            - /caches/demo-jenkins.tar
+      - run:
+          name: Run Docker Image
+          command: |
+            docker run \
+            --name demo-jenkins \
+            -u root \
+            --rm \
+            -d \
+            -p 8080:8080 \
+            -p 50000:50000 \
+            -v jenkins-data:/var/jenkins_home \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            demo-jenkins
+      - run:
+          name: Check Running Container
+          command: |
+            docker ps
+#      - run:
+#          name: Stop and Remove Containers
+#          command: |
+#            docker stop $(docker ps -aq) \
+#            docker rm $(docker ps -aq)
+#      - run:
+#          name: Execute Ansible Playbook
+#          command: |
+#            ansible-playbook -i hosts jenkins-docker-build-and-deploy.yml
+#      - run:
+#          name: Run tests
+#          command: |
+#            docker-compose -f ./docker-compose.test.yml up
+#      - deploy:
+#          name: Push application Docker image
+#          command: |
+#              docker tag demo-jenkins "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
+#              docker demo-jenkins "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
