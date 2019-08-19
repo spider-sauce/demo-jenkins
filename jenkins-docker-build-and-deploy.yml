@@ -5,12 +5,20 @@
     - name: Build the custom Jenkins Docker image
       docker_image:
         path: ./
-        name: custom/jenkins
+        name: custom/demo-jenkins
+
     - name: Run Jenkins Docker image
       docker_container:
-        name: jenkins
-        image: custom/jenkins
+        name: demo-jenkins
+        image: custom/demo-jenkins
         published_ports: 8080:8080
+
+    - name: Wait for port 8080 to open on the host, don't start checking for 10 seconds
+      wait_for:
+        host: 127.0.0.1
+        port: 8080
+        delay: 10
+
     - name: Create Crumb Remote Access Request Field
       uri:
         url: 'http://127.0.0.1:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
@@ -18,7 +26,12 @@
         password: jenkins-admin-password
         force_basic_auth: yes
         return_content: yes
+        status_code: 200
       register: crumb
+      until: crumb.status == 200
+      retries: 30
+      delay: 1
+
     - name: Create Global Sauce Lab Credentials
       uri:
         method: POST
@@ -35,8 +48,8 @@
               "scope":"GLOBAL",
               "id":"sauce-id",
               "description":"sauce labs auth",
-              "username":"your-saucelabs-username",
-              "apiKey":"your-saucelabs-access-key",
+              "username":"$SAUCE_USERNAME",
+              "apiKey":"$SAUCE_ACCESS_KEY",
               "restEndpoint":"https://saucelabs.com/",
               "$class":"hudson.plugins.sauce_ondemand.credentials.SauceCredentials"
             }
