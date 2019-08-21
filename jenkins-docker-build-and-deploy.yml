@@ -1,6 +1,7 @@
 - hosts: localhost
   connection: local
-  gather_facts: no
+#- hosts: all
+#  gather_facts: no
   tasks:
     - name: Build the custom Jenkins Docker image
       docker_image:
@@ -15,7 +16,7 @@
 
     - name: Wait for port 8080 to open on the host, don't start checking for 10 seconds
       wait_for:
-        host: 127.0.0.1
+        host: 0.0.0.0
         port: 8080
         delay: 10
 

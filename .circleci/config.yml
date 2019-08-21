@@ -10,8 +10,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            apk update
+            apk upgrade
             apk add --no-cache --virtual \
-             .build-deps g++ python3-dev libffi-dev openssl-dev && \
+             .build-deps g++ python3-dev libffi-dev curl openssl-dev && \
             apk add --no-cache --update python3 && \
             pip3 install --upgrade pip setuptools
       - run:
@@ -60,15 +62,31 @@ jobs:
           name: Check Running Container
           command: |
             docker ps
+#      - run:
+#          name: Set Jenkins Credentials
+#          no_output_timeout: 5m
+#          command: |
+#            JENKINS_CRUMB=$(curl -s 'http://jenkins-admin:jenkins-admin-password@127.0.0.1:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)')
+#            curl -s -XPOST -H ${JENKINS_CRUMB} http://jenkins-admin:jenkins-admin-password@127.0.0.1:8080/credentials/store/system/domain/_/createCredentials \
+#            --data-urlencode 'json={
+#              "": "0",
+#              "credentials": {
+#                "scope": "GLOBAL",
+#                "id": "credential_id_here",
+#                "username": ${SAUCE_USERNAME},
+#                "password": ${SAUCE_ACCESS_KEY},
+#                "description": "My new credentials",
+#                "$class": "com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl"
+#              }
+#            }'
       - run:
-          name: Stop and Remove Containers
+          name: Stop Containers
           command: |
-            docker stop $(docker ps -aq) \
-            docker rm $(docker ps -aq)
-      - run:
-          name: Execute Ansible Playbook
-          command: |
-            ansible-playbook jenkins-docker-build-and-deploy.yml
+            docker stop $(docker ps -aq)
+#      - run:
+#          name: Execute Ansible Playbook
+#          command: |
+#            ansible-playbook jenkins-docker-build-and-deploy.yml
 #      - run:
 #          name: Run tests
 #          command: |
