@@ -1,5 +1,4 @@
 # Sauce Labs OnDemand Jenkins Plugin Demo
-[![CircleCI](https://circleci.com/gh/saucelabs-training/demo-jenkins.svg?style=svg)](https://circleci.com/gh/saucelabs-training/demo-jenkins)
 
 This repository contains source code examples along with other manifest files to quickly get up and running with Jenkins and the Sauce Labs OnDemand Jenkins plugin. 
 
