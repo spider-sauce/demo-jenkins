@@ -47,7 +47,7 @@ Below is a list of prerequisite software needed to run the **Quickstart Demo**
     ```
     
 6. Open a local browser and navigate to `http://localhost:8080`
-7. Follow the steps in the [Testing the Sauce OnDemand Plugin](https://wiki.saucelabs.com/display/DOCS/Jenkins+and+Sauce+OnDemand+Plugin+Quickstart+Guide#test-the-saucelabs-ondemand-jenkins-plugin) to create a job.
+7. Follow the steps in the [Testing the Sauce OnDemand Plugin](https://wiki.saucelabs.com/display/DOCS/Installing+and+Configuring+the+Sauce+OnDemand+Plugin+for+Jenkins) to create a job.
 8. Run the job and check your [www.saucelabs.com](www.saucelabs.com) dashboard for the test results.
 
 <br />
